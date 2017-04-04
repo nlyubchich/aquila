@@ -82,3 +82,4 @@ pyvenv.cfg
 pip-selfcheck.json
 /db.sqlite3
 /static/
+.idea
