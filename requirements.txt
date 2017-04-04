@@ -1,5 +1,4 @@
 bootstrap-admin==0.3.7.1
-brotlipy==0.6.0
 dj-database-url==0.4.2
 Django==1.10.6
 gunicorn==19.7.1
