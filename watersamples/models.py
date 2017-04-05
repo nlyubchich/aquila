@@ -29,8 +29,25 @@ class WaterIntakeInfo(models.Model):
     info = models.CharField(max_length=200)
     user = models.ForeignKey(User)
     laboratory = models.ForeignKey("Laboratory")
+    intake_point = models.ForeignKey("WaterIntakePoint")
+    date_taken = models.DateTimeField(auto_now_add=True)
+    date_laboratory = models.DateTimeField(auto_now_add=True)
+    temperature = models.CharField(max_length=200)
+
+    smell_20_celsium = models.CharField(max_length=200, blank=True, null=True)
+    smell_60_celsium = models.CharField(max_length=200, blank=True, null=True)
+    aftertaste = models.CharField(max_length=200, blank=True, null=True)
+    color = models.CharField(max_length=200, blank=True, null=True)
+
+    dry_residue = models.CharField(max_length=200, blank=True, null=True)
+    pH = models.CharField(max_length=200, blank=True, null=True)
+    rigidity = models.CharField(max_length=200, blank=True, null=True)
+    nitrates = models.CharField(max_length=200, blank=True, null=True)
+    chlorides = models.CharField(max_length=200, blank=True, null=True)
+    sulphates = models.CharField(max_length=200, blank=True, null=True)
+    iron_overall = models.CharField(max_length=200, blank=True, null=True)
+    manganese = models.CharField(max_length=200, blank=True, null=True)
+    fluorine = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
-        return "проба от {user} для {laboratory}".format(user=self.user.name, laboratory=self.laboratory.name)
-
-
+        return "проба от {user} для {laboratory}".format(user=self.user.username, laboratory=self.laboratory.name)

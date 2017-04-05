@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 from watersamples.models import OrganizationInfo, Laboratory, WaterIntakeInfo, WaterIntakePoint
 
-admin.site.register([Laboratory, WaterIntakeInfo, WaterIntakePoint])
+admin.site.register([Laboratory, WaterIntakePoint])
 
 
 class EmployeeInline(admin.StackedInline):
@@ -15,6 +15,18 @@ class EmployeeInline(admin.StackedInline):
 
 class UserAdmin(BaseUserAdmin):
     inlines = [EmployeeInline]
+
+
+class WaterIntakeInfoAdmin(admin.ModelAdmin):
+    def get_readonly_fields(self, request, obj=None):
+        # obj is not None, so this is an edit
+        if obj:
+            # Return a list or tuple of readonly fields' names
+            return ['temperature', 'user', 'intake_point']
+        else:  # This is an addition
+            return []
+
+admin.site.register(WaterIntakeInfo, WaterIntakeInfoAdmin)
 
 # Re-register UserAdmin
 admin.site.unregister(User)

@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = '(tzw8t2fo6_5zi(wizc+_8rb1v^ozplz^#ec=t!+*zp%k*9o6v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -31,6 +31,12 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    # 'admin_tools',
+    # 'admin_tools_stats',
+    # 'django_nvd3',
+    # 'admin_tools.theming',
+    # 'admin_tools.menu',
+    # 'admin_tools.dashboard',
     'bootstrap_admin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -58,7 +64,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
+        'APP_DIRS': True,  # should be commented when admin tools stats enabled
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -66,6 +72,11 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            # 'loaders': [
+            #     'django.template.loaders.filesystem.Loader',
+            #     'django.template.loaders.app_directories.Loader',
+            #     'admin_tools.template_loaders.Loader',
+            # ]
         },
     },
 ]
@@ -130,3 +141,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
+# ADMIN_TOOLS_INDEX_DASHBOARD = 'aquila.dashboard.CustomIndexDashboard'
+
+# ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'aquila.dashboard.CustomAppIndexDashboard'
