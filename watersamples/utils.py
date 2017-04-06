@@ -32,3 +32,10 @@ INTENSITY_CHOICES = OrderedDict([
     (INTENSITY_FOURTH, '4 - сильний запах і присмак'),
     (INTENSITY_FIFTH, '5 - непридатна для пиття'),
 ])
+
+STATUS_NEW = 0
+STATUS_CHECKED = 1
+STATUS_CHOICES = OrderedDict([
+    (STATUS_NEW, 'Знятий'),
+    (STATUS_CHECKED, 'Досліджений'),
+])

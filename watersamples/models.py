@@ -6,7 +6,7 @@ from django.db import models
 
 from watersamples.bl import SurfaceClassifier, UndergroundClassifier
 from watersamples.utils import SOURCE_TYPE_CHOICES, SOURCE_CLASSIFICATION_CHOICES, INTENSITY_CHOICES, \
-    UNDERGROUND_SOURCE_TYPE, SURFACE_SOURCE_TYPE
+    UNDERGROUND_SOURCE_TYPE, SURFACE_SOURCE_TYPE, STATUS_CHOICES, STATUS_NEW, STATUS_CHECKED
 
 
 class OrganizationInfo(models.Model):
@@ -40,6 +40,7 @@ class WaterIntakeInfo(models.Model):
     date_laboratory = models.DateTimeField(auto_now_add=True)
     temperature = models.IntegerField()
     source_type = models.CharField(max_length=50, choices=SOURCE_TYPE_CHOICES.items())
+    status = models.IntegerField(choices=STATUS_CHOICES.items())
 
     classification = models.IntegerField(
         choices=SOURCE_CLASSIFICATION_CHOICES.items()
@@ -114,4 +115,21 @@ class WaterIntakeInfo(models.Model):
         classification_data = self.classify()
         self.classification = classification_data['classification']
         self.classification_reason_field = classification_data['field_name']
+        self.status = STATUS_CHECKED if all([
+            self.temperature,
+            self.source_type,
+            self.smell_20_celsium,
+            self.smell_60_celsium,
+            self.aftertaste,
+            self.color,
+            self.dry_residue,
+            self.pH,
+            self.rigidity,
+            self.nitrates,
+            self.chlorides,
+            self.sulphates,
+            self.iron_overall,
+            self.manganese,
+            self.fluorine,
+        ]) else STATUS_NEW
         super(WaterIntakeInfo, self).save(*args, **kwargs)

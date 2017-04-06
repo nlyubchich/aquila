@@ -20,7 +20,7 @@ class UserAdmin(BaseUserAdmin):
 class WaterIntakeInfoAdmin(admin.ModelAdmin):
     def get_readonly_fields(self, request, obj=None):
         # obj is not None, so this is an edit
-        addition_fields = ['classification', 'classification_reason_field']
+        addition_fields = ['classification', 'classification_reason_field', 'status']
         if obj:
             # Return a list or tuple of readonly fields' names
             return addition_fields + ['temperature', 'user', 'intake_point']
