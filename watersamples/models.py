@@ -3,6 +3,7 @@ import inspect
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django_google_maps import fields as map_fields
 
 from watersamples.bl import SurfaceClassifier, UndergroundClassifier
 from watersamples.utils import SOURCE_TYPE_CHOICES, SOURCE_CLASSIFICATION_CHOICES, INTENSITY_CHOICES, \
@@ -26,10 +27,12 @@ class Laboratory(models.Model):
 
 
 class WaterIntakePoint(models.Model):
-    market_on_map = models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
+    address = map_fields.AddressField(max_length=200)
+    geolocation = map_fields.GeoLocationField()
 
     def __str__(self):
-        return "{market_on_map}".format(market_on_map=self.market_on_map)
+        return "{name} ({address})".format(name=self.name, address=self.address)
 
 
 class WaterIntakeInfo(models.Model):

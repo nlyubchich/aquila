@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     # 'admin_tools.theming',
     # 'admin_tools.menu',
     # 'admin_tools.dashboard',
+    'django_google_maps',
     'bootstrap_admin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -146,3 +147,11 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # ADMIN_TOOLS_INDEX_DASHBOARD = 'aquila.dashboard.CustomIndexDashboard'
 
 # ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'aquila.dashboard.CustomAppIndexDashboard'
+
+# should be kept in secrets.py
+GOOGLE_MAPS_API_KEY = ''
+
+try:
+    from .secrets import *
+except ImportError:
+    pass

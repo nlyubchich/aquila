@@ -83,3 +83,4 @@ pip-selfcheck.json
 /db.sqlite3
 /static/
 .idea
+aquila/settings/secrets.py
