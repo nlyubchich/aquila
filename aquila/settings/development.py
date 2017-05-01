@@ -32,12 +32,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    # 'admin_tools',
-    # 'admin_tools_stats',
-    # 'django_nvd3',
-    # 'admin_tools.theming',
-    # 'admin_tools.menu',
-    # 'admin_tools.dashboard',
+    'chartit',
     'django_google_maps',
     'bootstrap_admin',
     'django.contrib.admin',

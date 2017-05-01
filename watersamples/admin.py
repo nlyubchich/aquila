@@ -1,3 +1,4 @@
+import datetime
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
@@ -27,15 +28,34 @@ class UserAdmin(BaseUserAdmin):
 
 
 class WaterIntakeInfoAdmin(admin.ModelAdmin):
+    list_display = ['info_title', 'chart_link']
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super(WaterIntakeInfoAdmin, self).save_model(request, obj, form, change)
+
     def get_readonly_fields(self, request, obj=None):
         # obj is not None, so this is an edit
-        addition_fields = ['classification', 'classification_reason_field', 'status', ]
+        addition_fields = ['classification', 'classification_reason_field', 'status', 'date_taken']
         if obj:
             # Return a list or tuple of readonly fields' names
             return addition_fields + ['temperature', 'user', 'intake_point']
         else:  # This is an addition
             return addition_fields
 
+    def info_title(self, obj):
+        return str(obj)
+
+    def chart_link(self, obj):
+        url = reverse('chart')
+        today = datetime.date.today() - datetime.timedelta(days=14)
+        print(today)
+        return format_html(
+            '<a href="{url}?date_from={date_from}&intake_point={point_id}&info_fields=classification">Statistics</a>'.format(
+                url=url,
+                point_id=obj.intake_point_id,
+                date_from=today
+            ))
 
 admin.site.register(WaterIntakeInfo, WaterIntakeInfoAdmin)
 

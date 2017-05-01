@@ -1,0 +1,19 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/datetime_widget.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}"/>
+    <script src="{% static "admin/js/core.js" %}"></script>
+    <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+    {{ form.media }}
+    <form>
+        {{ form }}
+        <input type="submit" value="Calculate"/>
+    </form>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    {% load chartit %}
+    {{ weatherchart|load_charts:"container" }}
+    <div id='container'> Chart will be rendered here </div>
+{% endblock %}

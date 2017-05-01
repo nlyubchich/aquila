@@ -39,19 +39,19 @@ class WaterIntakePoint(models.Model):
         return "{name} ({address})".format(name=self.name, address=self.address)
 
 DEFAULT_VALUE = dict(
-    validators=MinValueValidator(0),
+    validators=[MinValueValidator(0)],
     blank=True,
     null=True,
 )
 
 
 class WaterIntakeInfo(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, editable=False)
     laboratory = models.ForeignKey("Laboratory")
     intake_point = models.ForeignKey("WaterIntakePoint")
-    date_taken = models.DateTimeField(auto_now_add=True)
-    date_laboratory = models.DateTimeField(auto_now_add=True)
-    temperature = models.IntegerField()
+    date_taken = models.DateField(auto_now_add=True, blank=False, null=False)
+    date_laboratory = models.DateField(blank=True, null=True)
+    temperature = models.IntegerField('Temperature (points)')
     status = models.IntegerField(choices=STATUS_CHOICES.items())
 
     classification = models.IntegerField(
@@ -63,22 +63,26 @@ class WaterIntakeInfo(models.Model):
         null=True,
     )
     smell_20_celsium = models.IntegerField(
+        'Smell 20 celsium (points)',
         blank=True,
         null=True,
         choices=INTENSITY_CHOICES.items()
     )
     smell_60_celsium = models.IntegerField(
+        'Smell 60 celsium (points)',
         blank=True,
         null=True,
         choices=INTENSITY_CHOICES.items()
     )
     aftertaste = models.IntegerField(
+        'Aftertaste (points)',
         blank=True,
         null=True,
         choices=INTENSITY_CHOICES.items()
     )
 
     color = models.IntegerField(
+        'Color (degrees)',
         blank=True,
         null=True,
         validators=[
@@ -88,20 +92,20 @@ class WaterIntakeInfo(models.Model):
     )
 
     dry_residue = models.IntegerField('Dry residue (mg/dm3)', **DEFAULT_VALUE)
-    pH = models.FloatField('pH)', **DEFAULT_VALUE)
-    rigidity = models.IntegerField('Dry residue (mg/dm3)', **DEFAULT_VALUE)
-    nitrates = models.IntegerField(**DEFAULT_VALUE)
-    chlorides = models.IntegerField(**DEFAULT_VALUE)
-    sulphates = models.IntegerField(**DEFAULT_VALUE)
-    iron_overall = models.FloatField(**DEFAULT_VALUE)
-    manganese = models.FloatField(**DEFAULT_VALUE)
-    fluorine = models.FloatField(**DEFAULT_VALUE)
+    pH = models.FloatField('Potential of hydrogen (PH)', **DEFAULT_VALUE)
+    rigidity = models.IntegerField('Hardness (mg-eq/dm3)', **DEFAULT_VALUE)
+    nitrates = models.IntegerField('Nitrates (mg/dm3)', **DEFAULT_VALUE)
+    chlorides = models.IntegerField('Chlorides (mg/dm3)', **DEFAULT_VALUE)
+    sulphates = models.IntegerField('Sulphates (mg/dm3)', **DEFAULT_VALUE)
+    iron_overall = models.FloatField('Iron (mg/dm3)', **DEFAULT_VALUE)
+    manganese = models.FloatField('Manganese (mg/dm3)', **DEFAULT_VALUE)
+    fluorine = models.FloatField('Fluorine (mg/dm3)', **DEFAULT_VALUE)
 
     def __str__(self):
-        return "Intake from {user} for {laboratory} - {classification}".format(
-            user=self.user.username,
-            laboratory=self.laboratory.title,
-            classification=SOURCE_CLASSIFICATION_CHOICES[self.classification],
+        return "Intake from {intake_point} at {date} - {classification}".format(
+            intake_point=self.intake_point.name,
+            date=self.date_taken,
+            classification=SOURCE_CLASSIFICATION_CHOICES[self.classification] if self.status == STATUS_CHECKED else 'NEW',
         )
 
     def classify(self):

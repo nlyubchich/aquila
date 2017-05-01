@@ -17,6 +17,4 @@ python-slugify==1.2.2
 six==1.10.0
 Unidecode==0.4.20
 whitenoise==3.3.0
-
-git+https://github.com/Thermondo/django-cache-utils.git
-git+https://github.com/Floship/django-qsstats-magic.git
+django_chartit==0.2.9
