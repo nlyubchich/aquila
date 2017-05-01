@@ -145,6 +145,15 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # should be kept in secrets.py
 GOOGLE_MAPS_API_KEY = ''
 
+LOGGING = {
+    "django": {
+        "handlers": ["console"],
+    },
+    "watersamples": {
+        "handlers": ["console"],
+    }
+}
+
 try:
     from .secrets import *
 except ImportError:
