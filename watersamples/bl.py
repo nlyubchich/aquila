@@ -4,7 +4,7 @@ from watersamples.utils import FIRST_SOURCE_CLASS, UNFIT_SOURCE_CLASS, SECOND_SO
 class Classifier:
     @classmethod
     def smell_or_taste(cls, value):
-        if value == 2:
+        if value <= 2:
             return FIRST_SOURCE_CLASS
         return UNFIT_SOURCE_CLASS
 
