@@ -1,0 +1,42 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <div id="map" style="width: 100%; height: 40em"></div>
+    <script>
+
+      function initMap() {
+      	var center = {lat: {{ center_lat }}, lng: {{ center_lon }} };
+        var map = new google.maps.Map(document.getElementById('map'), {
+			zoom: 8,
+			center: center,
+            mapTypeId: 'terrain'
+
+		});
+
+        {% for marker in markers %}
+            var marker = new google.maps.Marker({
+              position: {lat: {{ marker.lat }}, lng: {{ marker.lon }} },
+              map: map,
+              label: '{{ marker.name }}'
+            });
+        {% endfor %}
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYw4MeJILQ4MDRmEmIpJ4iuQ29tYdPyo8&callback=initMap">
+    </script>
+{% endblock %}

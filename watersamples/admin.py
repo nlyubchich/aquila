@@ -4,7 +4,9 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.forms import TextInput, Media
 from django.forms.utils import flatatt
+from django.urls import reverse
 from django.utils.encoding import force_text
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django_google_maps import widgets as map_widgets
 from django_google_maps import fields as map_fields
@@ -27,7 +29,7 @@ class UserAdmin(BaseUserAdmin):
 class WaterIntakeInfoAdmin(admin.ModelAdmin):
     def get_readonly_fields(self, request, obj=None):
         # obj is not None, so this is an edit
-        addition_fields = ['classification', 'classification_reason_field', 'status']
+        addition_fields = ['classification', 'classification_reason_field', 'status', ]
         if obj:
             # Return a list or tuple of readonly fields' names
             return addition_fields + ['temperature', 'user', 'intake_point']
@@ -61,10 +63,20 @@ class CustomGoogleMapsAddressWidget(map_widgets.GoogleMapsAddressWidget):
 
 
 class WaterIntakePointAdmin(admin.ModelAdmin):
+    list_display = ['name', 'map_link']
     formfield_overrides = {
         map_fields.AddressField: {'widget': CustomGoogleMapsAddressWidget},
         map_fields.GeoLocationField: {'widget': TextInput(attrs={'readonly': 'readonly'})},
     }
+
+    def map_link(self, obj):
+        url = reverse('maps')
+        return format_html(
+            '<a href="{url}?lat={lat}&lon={lon}">View the map</a>'.format(
+                url=url,
+                lat=obj.geolocation.lat,
+                lon=obj.geolocation.lon,
+            ))
 
 
 admin.site.register(WaterIntakePoint, WaterIntakePointAdmin)
