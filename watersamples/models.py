@@ -93,7 +93,7 @@ class WaterIntakeInfo(models.Model):
 
     dry_residue = models.IntegerField('Dry residue (mg/dm3)', **DEFAULT_VALUE)
     pH = models.FloatField('Potential of hydrogen (PH)', **DEFAULT_VALUE)
-    rigidity = models.IntegerField('Hardness (mg-eq/dm3)', **DEFAULT_VALUE)
+    rigidity = models.IntegerField('Rigidity (mg-eq/dm3)', **DEFAULT_VALUE)
     nitrates = models.IntegerField('Nitrates (mg/dm3)', **DEFAULT_VALUE)
     chlorides = models.IntegerField('Chlorides (mg/dm3)', **DEFAULT_VALUE)
     sulphates = models.IntegerField('Sulphates (mg/dm3)', **DEFAULT_VALUE)
